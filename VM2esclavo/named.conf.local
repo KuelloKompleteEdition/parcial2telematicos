@@ -1,7 +1,7 @@
 zone "empresa.local" {
     type slave;
     file "/var/cache/bind/db.empresa.local";
-    masters { 192.168.56.10; };
+    masters { 192.168.56.10 key "clave-secreta"; };
 };
 
 zone "56.168.192.in-addr.arpa" {

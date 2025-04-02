@@ -1,0 +1,14 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+# Redirigir DNS UDP al servidor esclavo
+-A PREROUTING -p udp --dport 53 -j DNAT --to-destination 192.168.56.11:53
+# Redirigir DNS TCP al servidor esclavo
+-A PREROUTING -p tcp --dport 53 -j DNAT --to-destination 192.168.56.11:53
+# Redirigir FTP TCP al servidor maestro
+-A PREROUTING -p tcp --dport 21 -j DNAT --to-destination 192.168.56.10:21
+# Reenviar puertos PASV FTP (40000-40100) al servidor maestro
+-A PREROUTING -i enp0s8 -p tcp --dport 40000:40100 -j DNAT --to-destination 192.168.56.10
+# Enmascarar para redes internas
+-A POSTROUTING -s 192.168.56.0/24 -o enp0s8 -j MASQUERADE
+COMMIT
