@@ -1,0 +1,20 @@
+acl internal_networks {
+    192.168.90.0/24;
+    192.168.90.2;
+};
+
+options {
+    directory "/var/cache/bind";
+    
+    allow-query { internal_networks; };   # Permitir consultas solo desde las redes internas
+    allow-recursion { internal_networks; };  # Permitir recursión solo desde las redes internas
+    allow-transfer { none; };   # Impedir la transferencia de zonas
+
+    forwarders {
+        0.0.0.0;
+    };
+
+    listen-on { any; };  # Escuchar en todas las interfaces
+    listen-on-v6 { any; };
+};
+
